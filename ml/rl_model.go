@@ -12,10 +12,10 @@ import (
 
 const (
 	InputSize    = 52
-	HiddenSize1  = 96
-	HiddenSize2  = 48
+	HiddenSize1  = 500
+	HiddenSize2  = 250
 	OutputSize   = 1
-	ModelVersion = 3
+	ModelVersion = 4
 )
 
 type RLModel struct {
@@ -590,13 +590,13 @@ func (m *RLModel) normalize(x []float64) []float64 {
 
 func (m *RLModel) featuresToVector(f *analyzer.BinaryFeatures) []float64 {
 	return []float64{
-		f.Entropy / 8.0,
+		f.Entropy / 3.0,
 		float64(f.FileSize) / 10000000.0,
 		float64(f.OverlaySize) / 1000000.0,
 		f.OverlayRatio,
 
 		float64(f.SectionCount) / 20.0,
-		float64(f.ImportCount) / 500.0,
+		float64(f.ImportCount) / 100.0,
 		float64(f.ExportCount) / 100.0,
 		float64(f.ResourceCount) / 100.0,
 		float64(f.TLSCallbackCount) / 10.0,
@@ -623,12 +623,12 @@ func (m *RLModel) featuresToVector(f *analyzer.BinaryFeatures) []float64 {
 		float64(f.AnomalousTimestamp),
 		float64(f.LowImportCount),
 
-		f.CodeSectionEntropy / 8.0,
-		f.DataSectionEntropy / 8.0,
-		f.MaxSectionEntropy / 8.0,
-		f.MinSectionEntropy / 8.0,
-		f.AvgSectionEntropy / 8.0,
-		f.SectionEntropyStdDev / 4.0,
+		f.CodeSectionEntropy / 3.0,
+		f.DataSectionEntropy / 3.0,
+		f.MaxSectionEntropy / 3.0,
+		f.MinSectionEntropy / 3.0,
+		f.AvgSectionEntropy / 3.0,
+		f.SectionEntropyStdDev / 1.1,
 
 		math.Min(f.CodeToDataRatio, 10.0) / 10.0,
 		math.Min(f.ImportToExportRatio, 100.0) / 100.0,
@@ -638,17 +638,17 @@ func (m *RLModel) featuresToVector(f *analyzer.BinaryFeatures) []float64 {
 		f.ImportDensity / 10.0,
 		float64(f.SuspiciousDLLs) / 10.0,
 
-		float64(f.ASCIIStringCount) / 1000.0,
-		float64(f.UnicodeStringCount) / 1000.0,
+		float64(f.ASCIIStringCount) / 100.0,
+		float64(f.UnicodeStringCount) / 100.0,
 		float64(f.URLCount) / 10.0,
 		float64(f.IPAddressCount) / 10.0,
 		float64(f.RegistryKeyCount) / 20.0,
-		float64(f.FilePathCount) / 50.0,
+		float64(f.FilePathCount) / 10.0,
 
 		float64(f.CompileTimestamp) / 1000000000.0,
 		f.TimestampAge / 3650.0,
 
-		f.EPSectionEntropy / 8.0,
+		f.EPSectionEntropy / 3.0,
 		float64(f.EPInLastSection),
 		f.SectionNameEntropy / 5.0,
 	}
