@@ -5,3 +5,5 @@ It's pretty good at detecting threats. av_model.json was trained on 1200 bad bin
 Uses a simple model with leaky RELU, adam and some other basic shenanigans.
 Some of the samples were uploaded here:
 https://huggingface.co/datasets/AILaborant/xAVy-training-samples
+Also check official xAVy automated VT profile:
+https://www.virustotal.com/gui/user/xAVy_Opensource_Antivirus/
